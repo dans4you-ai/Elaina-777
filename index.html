@@ -59,7 +59,18 @@
             text-align: center;
         }
         
-        .balance, .bet-control, .free-spins-info {
+        .free-spins-panel {
+            display: none;
+            background: linear-gradient(135deg, #33cc33, #009900);
+            animation: glow-panel 2s infinite alternate;
+        }
+        
+        @keyframes glow-panel {
+            from { box-shadow: 0 0 10px #33cc33; }
+            to { box-shadow: 0 0 20px #33cc33, 0 0 30px #33cc33; }
+        }
+        
+        .balance, .bet-control {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -301,61 +312,10 @@
             font-size: 1.5rem;
         }
         
-        .paytable {
-            margin-top: 30px;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-        }
-        
-        .paytable h2 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #ffcc00;
-        }
-        
-        .paytable-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 10px;
-        }
-        
-        .paytable-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-        
-        .paytable-item img {
-            width: 50px;
-            height: 50px;
-        }
-        
-        .paytable-multipliers {
-            margin-top: 20px;
-        }
-        
-        .multipliers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-        }
-        
-        .multiplier-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-        
-        .multiplier-item img {
-            width: 50px;
-            height: 50px;
+        .win-details {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #cccccc;
         }
         
         footer {
@@ -390,6 +350,11 @@
             color: #ffcc00;
             margin-bottom: 5px;
         }
+        
+        .free-spins-label {
+            color: white;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -414,8 +379,8 @@
                 </div>
             </div>
             
-            <div class="info-panel free-spins-info">
-                <div class="info-label">FREE SPINS</div>
+            <div class="info-panel free-spins-panel" id="free-spins-panel">
+                <div class="free-spins-label">FREE SPINS</div>
                 <div class="info-value"><span id="free-spins-count">0</span></div>
             </div>
         </div>
@@ -436,6 +401,7 @@
             
             <div class="win-info">
                 <div>Kemenangan: <span class="win-amount" id="win-amount">Rp 0</span></div>
+                <div class="win-details" id="win-details"></div>
                 <div class="scatter-info" id="scatter-info"></div>
             </div>
             
@@ -449,70 +415,6 @@
             
             <div class="spin-notice">
                 Klik SPIN untuk putaran sekali, tekan dan tahan untuk pilihan lainnya
-            </div>
-        </div>
-        
-        <div class="paytable">
-            <h2>TABEL PEMBAYARAN</h2>
-            <div class="paytable-grid">
-                <div class="paytable-item">
-                    <img src="https://k.top4top.io/p_35877z2ba0.png" alt="Simbol 1">
-                    <div>3: 10x<br>4: 25x<br>5: 100x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://e.top4top.io/p_3587ld8w10.png" alt="Simbol 2">
-                    <div>3: 15x<br>4: 35x<br>5: 150x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://c.top4top.io/p_3587d9wzg0.png" alt="Simbol 3">
-                    <div>3: 20x<br>4: 50x<br>5: 200x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://d.top4top.io/p_358791jgf1.png" alt="Simbol 4">
-                    <div>3: 25x<br>4: 75x<br>5: 300x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://a.top4top.io/p_3587698r20.png" alt="Simbol 5">
-                    <div>3: 30x<br>4: 100x<br>5: 400x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://b.top4top.io/p_35874hyq21.png" alt="Simbol 6">
-                    <div>3: 40x<br>4: 150x<br>5: 500x</div>
-                </div>
-                <div class="paytable-item">
-                    <img src="https://c.top4top.io/p_35879ra512.png" alt="Simbol 7">
-                    <div>3: 50x<br>4: 200x<br>5: 1000x</div>
-                </div>
-            </div>
-            
-            <div class="paytable-multipliers">
-                <h2>SIMBOL MULTIPLIER & BONUS</h2>
-                <div class="multipliers-grid">
-                    <div class="multiplier-item">
-                        <img src="https://l.top4top.io/p_35870bi240.png" alt="×10">
-                        <div>×10</div>
-                    </div>
-                    <div class="multiplier-item">
-                        <img src="https://a.top4top.io/p_35871c4ej1.png" alt="×50">
-                        <div>×50</div>
-                    </div>
-                    <div class="multiplier-item">
-                        <img src="https://b.top4top.io/p_3587ix9cg2.png" alt="×100">
-                        <div>×100</div>
-                    </div>
-                    <div class="multiplier-item">
-                        <img src="https://d.top4top.io/p_35875bz2n3.png" alt="×500">
-                        <div>×500</div>
-                    </div>
-                    <div class="multiplier-item">
-                        <img src="https://e.top4top.io/p_3587bxo354.png" alt="×1000">
-                        <div>×1000</div>
-                    </div>
-                    <div class="multiplier-item">
-                        <img src="https://b.top4top.io/p_3587w8wiv0.png" alt="Scatter">
-                        <div>3 Scatter = 10 Free Spins</div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -531,13 +433,13 @@
             reels: 5,
             rows: 3,
             symbols: [
-                { id: 1, img: 'https://k.top4top.io/p_35877z2ba0.png', payout: [0, 0, 10, 25, 100] },
-                { id: 2, img: 'https://e.top4top.io/p_3587ld8w10.png', payout: [0, 0, 15, 35, 150] },
-                { id: 3, img: 'https://c.top4top.io/p_3587d9wzg0.png', payout: [0, 0, 20, 50, 200] },
-                { id: 4, img: 'https://d.top4top.io/p_358791jgf1.png', payout: [0, 0, 25, 75, 300] },
-                { id: 5, img: 'https://a.top4top.io/p_3587698r20.png', payout: [0, 0, 30, 100, 400] },
-                { id: 6, img: 'https://b.top4top.io/p_35874hyq21.png', payout: [0, 0, 40, 150, 500] },
-                { id: 7, img: 'https://c.top4top.io/p_35879ra512.png', payout: [0, 0, 50, 200, 1000] }
+                { id: 1, img: 'https://k.top4top.io/p_35877z2ba0.png' },
+                { id: 2, img: 'https://e.top4top.io/p_3587ld8w10.png' },
+                { id: 3, img: 'https://c.top4top.io/p_3587d9wzg0.png' },
+                { id: 4, img: 'https://d.top4top.io/p_358791jgf1.png' },
+                { id: 5, img: 'https://a.top4top.io/p_3587698r20.png' },
+                { id: 6, img: 'https://b.top4top.io/p_35874hyq21.png' },
+                { id: 7, img: 'https://c.top4top.io/p_35879ra512.png' }
             ],
             multipliers: [
                 { id: 10, img: 'https://l.top4top.io/p_35870bi240.png', chance: 1/10 },
@@ -568,8 +470,10 @@
         const winAnimation = document.getElementById('win-animation');
         const freeSpinsAnimation = document.getElementById('free-spins-animation');
         const winAmountEl = document.getElementById('win-amount');
+        const winDetailsEl = document.getElementById('win-details');
         const freeSpinsCountEl = document.getElementById('free-spins-count');
         const scatterInfoEl = document.getElementById('scatter-info');
+        const freeSpinsPanel = document.getElementById('free-spins-panel');
 
         // Inisialisasi game
         let balance = config.balance;
@@ -595,15 +499,26 @@
             betAmountEl.textContent = formatRupiah(bet);
             freeSpinsCountEl.textContent = freeSpins;
             
+            // Tampilkan/sembunyikan panel free spins
+            if (isFreeSpinsActive && freeSpins > 0) {
+                freeSpinsPanel.style.display = 'flex';
+            } else {
+                freeSpinsPanel.style.display = 'none';
+            }
+            
             // Update teks tombol spin jika free spins aktif
             if (isFreeSpinsActive) {
                 spinBtn.textContent = `FREE SPIN (${freeSpins})`;
+                spinBtn.style.background = 'linear-gradient(to bottom, #33cc33, #009900)';
             } else if (spin10xActive) {
                 spinBtn.textContent = `SPIN 10x (${10 - spin10xCount})`;
+                spinBtn.style.background = 'linear-gradient(to bottom, #3399ff, #0066cc)';
             } else if (unlimitedSpins) {
                 spinBtn.textContent = 'STOP SPIN';
+                spinBtn.style.background = 'linear-gradient(to bottom, #ff3333, #cc0000)';
             } else {
                 spinBtn.textContent = 'SPIN';
+                spinBtn.style.background = 'linear-gradient(to bottom, #ff3333, #cc0000)';
             }
         }
 
@@ -643,6 +558,7 @@
             
             // Reset kemenangan
             winAmountEl.textContent = 'Rp 0';
+            winDetailsEl.textContent = '';
             scatterInfoEl.textContent = '';
             
             // Putar setiap gulungan dengan delay
@@ -680,6 +596,7 @@
                     isFreeSpinsActive = false;
                     freeSpinsMultiplier = 1;
                     scatterInfoEl.textContent = "Free Spins selesai!";
+                    updateUI();
                 }
             }, config.reels * 300 + 500);
         }
@@ -757,6 +674,7 @@
             let totalWin = 0;
             let multiplier = 1;
             let scatterCount = 0;
+            let winDetails = [];
             
             // Periksa setiap baris untuk kombinasi pemenang
             for (let row = 0; row < config.rows; row++) {
@@ -767,7 +685,7 @@
                     lineSymbols.push(symbol.dataset.symbol);
                 }
                 
-                // Periksa kombinasi simbol biasa
+                // Periksa kombinasi simbol biasa (3-5 simbol sejajar)
                 for (const symbolConfig of config.symbols) {
                     const symbolId = `symbol-${symbolConfig.id}`;
                     let count = 0;
@@ -783,8 +701,10 @@
                     }
                     
                     if (count >= 3) {
-                        const winAmount = bet * symbolConfig.payout[count];
+                        // Setiap kombinasi 3-5 simbol biasa memberikan 2x taruhan
+                        const winAmount = bet * 2;
                         totalWin += winAmount;
+                        winDetails.push(`${count} simbol sejajar: Rp ${formatRupiah(winAmount)}`);
                         
                         // Highlight simbol pemenang
                         for (let i = 0; i < count; i++) {
@@ -796,13 +716,38 @@
                         }
                     }
                 }
-                
-                // Periksa multiplier
-                for (let i = 0; i < lineSymbols.length; i++) {
-                    if (lineSymbols[i] && lineSymbols[i].startsWith('multiplier-')) {
-                        const multiplierValue = parseInt(lineSymbols[i].split('-')[1]);
-                        multiplier *= multiplierValue;
+            }
+            
+            // Periksa multiplier di seluruh gulungan
+            let multiplierSymbols = [];
+            for (let reel = 0; reel < config.reels; reel++) {
+                for (let row = 0; row < config.rows; row++) {
+                    const symbol = document.getElementById(`symbol-${reel}-${row}`);
+                    if (symbol.dataset.symbol && symbol.dataset.symbol.startsWith('multiplier-')) {
+                        const multiplierValue = parseInt(symbol.dataset.symbol.split('-')[1]);
+                        multiplierSymbols.push(multiplierValue);
+                        
+                        // Highlight multiplier
+                        symbol.classList.add('winning-symbol');
+                        setTimeout(() => {
+                            symbol.classList.remove('winning-symbol');
+                        }, 1000);
                     }
+                }
+            }
+            
+            // Terapkan multiplier ke total kemenangan
+            if (multiplierSymbols.length > 0) {
+                // Gabungkan semua multiplier (contoh: ×10 dan ×50 menjadi ×500)
+                let combinedMultiplier = 1;
+                multiplierSymbols.forEach(mult => {
+                    combinedMultiplier *= mult;
+                });
+                
+                if (combinedMultiplier > 1) {
+                    const multipliedWin = totalWin * (combinedMultiplier - 1);
+                    totalWin += multipliedWin;
+                    winDetails.push(`Multiplier ${combinedMultiplier}x: +Rp ${formatRupiah(multipliedWin)}`);
                 }
             }
             
@@ -835,26 +780,32 @@
                 }, 3000);
                 
                 scatterInfoEl.textContent = `Anda mendapatkan ${config.scatter.freeSpins} Free Spins dengan multiplier ${freeSpinsMultiplier}x!`;
+                updateUI();
             }
             
             // Hitung kemenangan scatter
             if (scatterCount >= 3) {
                 const scatterWin = bet * scatterCount * 10; // 10x per scatter
                 totalWin += scatterWin;
+                winDetails.push(`${scatterCount} scatter: Rp ${formatRupiah(scatterWin)}`);
             }
             
-            // Terapkan multiplier
-            totalWin *= multiplier;
-            
             // Terapkan free spins multiplier jika aktif
-            if (isFreeSpinsActive) {
-                totalWin *= freeSpinsMultiplier;
+            if (isFreeSpinsActive && totalWin > 0) {
+                const freeSpinsBonus = totalWin * (freeSpinsMultiplier - 1);
+                totalWin += freeSpinsBonus;
+                winDetails.push(`Free Spins ${freeSpinsMultiplier}x: +Rp ${formatRupiah(freeSpinsBonus)}`);
             }
             
             // Tambahkan kemenangan ke saldo
             if (totalWin > 0) {
                 balance += totalWin;
                 winAmountEl.textContent = `Rp ${formatRupiah(totalWin)}`;
+                
+                // Tampilkan detail kemenangan
+                if (winDetails.length > 0) {
+                    winDetailsEl.textContent = winDetails.join(' | ');
+                }
                 
                 // Tampilkan animasi BIG WIN jika menang di atas 500.000
                 if (totalWin > 500000) {
