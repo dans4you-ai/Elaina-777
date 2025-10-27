@@ -48,9 +48,15 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            gap: 15px;
+        }
+        
+        .info-panel {
+            flex: 1;
             background: rgba(0, 0, 0, 0.5);
             padding: 15px;
             border-radius: 10px;
+            text-align: center;
         }
         
         .balance, .bet-control, .free-spins-info {
@@ -61,22 +67,23 @@
         
         .balance h2, .bet-control h2, .free-spins-info h2 {
             font-size: 1.2rem;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
             color: #ffcc00;
         }
         
         .balance-amount, .bet-amount, .free-spins-count {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
+            margin-bottom: 10px;
         }
         
         .bet-controls {
             display: flex;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         
-        button {
+        .bet-btn {
             background: linear-gradient(to bottom, #ffcc00, #ff9900);
             border: none;
             border-radius: 5px;
@@ -85,14 +92,19 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        button:hover {
+        .bet-btn:hover {
             background: linear-gradient(to bottom, #ffdd33, #ffaa00);
             transform: translateY(-2px);
         }
         
-        button:active {
+        .bet-btn:active {
             transform: translateY(1px);
         }
         
@@ -159,11 +171,23 @@
             padding: 15px 60px;
             border-radius: 50px;
             position: relative;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .spin-btn:hover {
+            background: linear-gradient(to bottom, #ff5555, #dd2222);
+            transform: translateY(-2px);
+        }
+        
+        .spin-btn:active {
+            transform: translateY(1px);
         }
         
         .spin-options {
             position: absolute;
-            top: -80px;
+            top: -90px;
             left: 50%;
             transform: translateX(-50%);
             display: none;
@@ -183,10 +207,22 @@
             padding: 10px 30px;
             border-radius: 50px;
             white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .spin-option:hover {
+            background: linear-gradient(to bottom, #55bbff, #0088ff);
+            transform: translateY(-2px);
         }
         
         .spin-option.unlimited {
             background: linear-gradient(to bottom, #33cc33, #009900);
+        }
+        
+        .spin-option.unlimited:hover {
+            background: linear-gradient(to bottom, #55ee55, #00bb00);
         }
         
         .win-animation {
@@ -342,6 +378,18 @@
             font-size: 0.9rem;
             color: #ffcc00;
         }
+        
+        .info-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .info-label {
+            font-size: 1rem;
+            color: #ffcc00;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -352,23 +400,23 @@
     
     <div class="container">
         <div class="game-info">
-            <div class="balance">
-                <h2>SALDO ANDA</h2>
-                <div class="balance-amount">Rp <span id="balance">1.000.000</span></div>
+            <div class="info-panel balance">
+                <div class="info-label">SALDO ANDA</div>
+                <div class="info-value">Rp <span id="balance">1.000.000</span></div>
             </div>
             
-            <div class="bet-control">
-                <h2>TARUHAN</h2>
-                <div class="bet-amount">Rp <span id="bet-amount">400</span></div>
+            <div class="info-panel bet-control">
+                <div class="info-label">TARUHAN</div>
+                <div class="info-value">Rp <span id="bet-amount">400</span></div>
                 <div class="bet-controls">
-                    <button id="decrease-bet">-</button>
-                    <button id="increase-bet">+</button>
+                    <button class="bet-btn" id="decrease-bet">-</button>
+                    <button class="bet-btn" id="increase-bet">+</button>
                 </div>
             </div>
             
-            <div class="free-spins-info">
-                <h2>FREE SPINS</h2>
-                <div class="free-spins-count"><span id="free-spins-count">0</span></div>
+            <div class="info-panel free-spins-info">
+                <div class="info-label">FREE SPINS</div>
+                <div class="info-value"><span id="free-spins-count">0</span></div>
             </div>
         </div>
         
