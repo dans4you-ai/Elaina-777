@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELAINA777 - Game Slot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            color: #ffcc00;
+            text-shadow: 0 0 10px #ff9900, 0 0 20px #ff9900;
+            margin-bottom: 10px;
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .balance, .bet-control {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .balance h2, .bet-control h2 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: #ffcc00;
+        }
+        
+        .balance-amount, .bet-amount {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .bet-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        button {
+            background: linear-gradient(to bottom, #ffcc00, #ff9900);
+            border: none;
+            border-radius: 5px;
+            color: #000;
+            padding: 8px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(to bottom, #ffdd33, #ffaa00);
+            transform: translateY(-2px);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        .slot-container {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .reels {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .reel {
+            height: 120px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .symbol {
+            height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            transition: transform 0.3s;
+        }
+        
+        .symbol img {
+            max-width: 80%;
+            max-height: 80%;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .spin-btn {
+            background: linear-gradient(to bottom, #ff3333, #cc0000);
+            color: white;
+            font-size: 1.2rem;
+            padding: 12px 30px;
+            border-radius: 50px;
+        }
+        
+        .spin-10x {
+            background: linear-gradient(to bottom, #3399ff, #0066cc);
+        }
+        
+        .spin-unlimited {
+            background: linear-gradient(to bottom, #33cc33, #009900);
+        }
+        
+        .win-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        .big-win {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ffcc00;
+            text-shadow: 0 0 10px #ff9900, 0 0 20px #ff9900, 0 0 30px #ff9900;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .win-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            min-height: 30px;
+        }
+        
+        .win-amount {
+            color: #ffcc00;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .paytable {
+            margin-top: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .paytable h2 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #ffcc00;
+        }
+        
+        .paytable-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+        
+        .paytable-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .paytable-item img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .paytable-multipliers {
+            margin-top: 20px;
+        }
+        
+        .multipliers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        
+        .multiplier-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        
+        .multiplier-item img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ELAINA777</h1>
+        <p>Putar gulungan dan raih kemenangan besar!</p>
+    </header>
+    
+    <div class="container">
+        <div class="game-info">
+            <div class="balance">
+                <h2>SALDO ANDA</h2>
+                <div class="balance-amount">Rp <span id="balance">1.000.000</span></div>
+            </div>
+            
+            <div class="bet-control">
+                <h2>TARUHAN</h2>
+                <div class="bet-amount">Rp <span id="bet-amount">400</span></div>
+                <div class="bet-controls">
+                    <button id="decrease-bet">-</button>
+                    <button id="increase-bet">+</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slot-container">
+            <div class="reels" id="reels">
+                <!-- Reels akan diisi oleh JavaScript -->
+            </div>
+            
+            <div class="win-animation" id="win-animation">
+                <div class="big-win">BIG WIN!</div>
+            </div>
+            
+            <div class="win-info">
+                <div>Kemenangan: <span class="win-amount" id="win-amount">Rp 0</span></div>
+            </div>
+            
+            <div class="controls">
+                <button class="spin-btn" id="spin-btn">SPIN</button>
+                <button class="spin-btn spin-10x" id="spin-10x">SPIN 10X</button>
+                <button class="spin-btn spin-unlimited" id="spin-unlimited">SPIN UNLIMITED</button>
+            </div>
+        </div>
+        
+        <div class="paytable">
+            <h2>TABEL PEMBAYARAN</h2>
+            <div class="paytable-grid">
+                <div class="paytable-item">
+                    <img src="https://www.imghippo.com/i/sZM8706Wvg.png" alt="Simbol 1">
+                    <div>3: 10x | 4: 25x | 5: 100x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://e.top4top.io/p_3587ld8w10.png" alt="Simbol 2">
+                    <div>3: 15x | 4: 35x | 5: 150x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://c.top4top.io/p_3587d9wzg0.png" alt="Simbol 3">
+                    <div>3: 20x | 4: 50x | 5: 200x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://d.top4top.io/p_358791jgf1.png" alt="Simbol 4">
+                    <div>3: 25x | 4: 75x | 5: 300x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://a.top4top.io/p_3587698r20.png" alt="Simbol 5">
+                    <div>3: 30x | 4: 100x | 5: 400x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://b.top4top.io/p_35874hyq21.png" alt="Simbol 6">
+                    <div>3: 40x | 4: 150x | 5: 500x</div>
+                </div>
+                <div class="paytable-item">
+                    <img src="https://c.top4top.io/p_35879ra512.png" alt="Simbol 7">
+                    <div>3: 50x | 4: 200x | 5: 1000x</div>
+                </div>
+            </div>
+            
+            <div class="paytable-multipliers">
+                <h2>SIMBOL MULTIPLIER</h2>
+                <div class="multipliers-grid">
+                    <div class="multiplier-item">
+                        <img src="https://l.top4top.io/p_35870bi240.png" alt="×10">
+                        <div>×10</div>
+                    </div>
+                    <div class="multiplier-item">
+                        <img src="https://a.top4top.io/p_35871c4ej1.png" alt="×50">
+                        <div>×50</div>
+                    </div>
+                    <div class="multiplier-item">
+                        <img src="https://b.top4top.io/p_3587ix9cg2.png" alt="×100">
+                        <div>×100</div>
+                    </div>
+                    <div class="multiplier-item">
+                        <img src="https://d.top4top.io/p_35875bz2n3.png" alt="×500">
+                        <div>×500</div>
+                    </div>
+                    <div class="multiplier-item">
+                        <img src="https://e.top4top.io/p_3587bxo354.png" alt="×1000">
+                        <div>×1000</div>
+                    </div>
+                    <div class="multiplier-item">
+                        <img src="https://b.top4top.io/p_3587w8wiv0.png" alt="Scatter">
+                        <div>Scatter</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>ELAINA777 © 2023 - Game ini hanya untuk hiburan</p>
+    </footer>
+
+    <script>
+        // Konfigurasi game
+        const config = {
+            balance: 1000000,
+            minBet: 400,
+            maxBet: 50000,
+            bet: 400,
+            reels: 5,
+            rows: 3,
+            symbols: [
+                { id: 1, img: 'https://www.imghippo.com/i/sZM8706Wvg.png', payout: [0, 0, 10, 25, 100] },
+                { id: 2, img: 'https://e.top4top.io/p_3587ld8w10.png', payout: [0, 0, 15, 35, 150] },
+                { id: 3, img: 'https://c.top4top.io/p_3587d9wzg0.png', payout: [0, 0, 20, 50, 200] },
+                { id: 4, img: 'https://d.top4top.io/p_358791jgf1.png', payout: [0, 0, 25, 75, 300] },
+                { id: 5, img: 'https://a.top4top.io/p_3587698r20.png', payout: [0, 0, 30, 100, 400] },
+                { id: 6, img: 'https://b.top4top.io/p_35874hyq21.png', payout: [0, 0, 40, 150, 500] },
+                { id: 7, img: 'https://c.top4top.io/p_35879ra512.png', payout: [0, 0, 50, 200, 1000] }
+            ],
+            multipliers: [
+                { id: 10, img: 'https://l.top4top.io/p_35870bi240.png', chance: 1/10 },
+                { id: 50, img: 'https://a.top4top.io/p_35871c4ej1.png', chance: 1/50 },
+                { id: 100, img: 'https://b.top4top.io/p_3587ix9cg2.png', chance: 1/100 },
+                { id: 500, img: 'https://d.top4top.io/p_35875bz2n3.png', chance: 1/500 },
+                { id: 1000, img: 'https://e.top4top.io/p_3587bxo354.png', chance: 1/1000 }
+            ],
+            scatter: { id: 'scatter', img: 'https://b.top4top.io/p_3587w8wiv0.png', chance: 1/30 }
+        };
+
+        // Elemen DOM
+        const balanceEl = document.getElementById('balance');
+        const betAmountEl = document.getElementById('bet-amount');
+        const decreaseBetBtn = document.getElementById('decrease-bet');
+        const increaseBetBtn = document.getElementById('increase-bet');
+        const reelsContainer = document.getElementById('reels');
+        const spinBtn = document.getElementById('spin-btn');
+        const spin10xBtn = document.getElementById('spin-10x');
+        const spinUnlimitedBtn = document.getElementById('spin-unlimited');
+        const winAnimation = document.getElementById('win-animation');
+        const winAmountEl = document.getElementById('win-amount');
+
+        // Inisialisasi game
+        let balance = config.balance;
+        let bet = config.bet;
+        let isSpinning = false;
+        let unlimitedSpins = false;
+        let spinsCount = 0;
+
+        // Format angka ke format Rupiah
+        function formatRupiah(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+
+        // Update tampilan saldo dan taruhan
+        function updateUI() {
+            balanceEl.textContent = formatRupiah(balance);
+            betAmountEl.textContent = formatRupiah(bet);
+        }
+
+        // Buat gulungan
+        function createReels() {
+            reelsContainer.innerHTML = '';
+            for (let i = 0; i < config.reels; i++) {
+                const reel = document.createElement('div');
+                reel.className = 'reel';
+                reel.id = `reel-${i}`;
+                
+                for (let j = 0; j < config.rows; j++) {
+                    const symbol = document.createElement('div');
+                    symbol.className = 'symbol';
+                    symbol.id = `symbol-${i}-${j}`;
+                    symbol.innerHTML = '<img src="' + config.symbols[0].img + '" alt="Symbol">';
+                    reel.appendChild(symbol);
+                }
+                
+                reelsContainer.appendChild(reel);
+            }
+        }
+
+        // Putar gulungan
+        function spinReels() {
+            if (isSpinning || balance < bet) return;
+            
+            // Kurangi saldo
+            balance -= bet;
+            updateUI();
+            
+            isSpinning = true;
+            spinsCount++;
+            
+            // Reset kemenangan
+            winAmountEl.textContent = 'Rp 0';
+            
+            // Putar setiap gulungan dengan delay
+            for (let i = 0; i < config.reels; i++) {
+                setTimeout(() => {
+                    spinReel(i);
+                }, i * 300);
+            }
+            
+            // Setelah semua gulungan berhenti, hitung kemenangan
+            setTimeout(() => {
+                calculateWin();
+                isSpinning = false;
+                
+                // Jika unlimited spins aktif, putar lagi
+                if (unlimitedSpins && balance >= bet) {
+                    setTimeout(spinReels, 500);
+                }
+            }, config.reels * 300 + 500);
+        }
+
+        // Putar satu gulungan
+        function spinReel(reelIndex) {
+            const reel = document.getElementById(`reel-${reelIndex}`);
+            const symbols = reel.querySelectorAll('.symbol');
+            
+            // Animasi putaran
+            let spinDuration = 1000 + reelIndex * 200;
+            let startTime = null;
+            
+            function animateSpin(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                
+                if (progress < spinDuration) {
+                    // Acak simbol selama animasi
+                    symbols.forEach(symbol => {
+                        const randomSymbol = config.symbols[Math.floor(Math.random() * config.symbols.length)];
+                        symbol.innerHTML = `<img src="${randomSymbol.img}" alt="Symbol">`;
+                    });
+                    
+                    requestAnimationFrame(animateSpin);
+                } else {
+                    // Set simbol akhir setelah animasi selesai
+                    setFinalSymbols(reelIndex);
+                }
+            }
+            
+            requestAnimationFrame(animateSpin);
+        }
+
+        // Set simbol akhir untuk gulungan
+        function setFinalSymbols(reelIndex) {
+            const reel = document.getElementById(`reel-${reelIndex}`);
+            const symbols = reel.querySelectorAll('.symbol');
+            
+            // Tentukan simbol yang akan muncul
+            for (let i = 0; i < config.rows; i++) {
+                const symbol = symbols[i];
+                
+                // Cek apakah akan muncul multiplier atau scatter
+                const rand = Math.random();
+                
+                if (rand < config.scatter.chance) {
+                    // Tampilkan scatter
+                    symbol.innerHTML = `<img src="${config.scatter.img}" alt="Scatter">`;
+                    symbol.dataset.symbol = 'scatter';
+                } else {
+                    // Cek untuk multiplier
+                    let isMultiplier = false;
+                    for (const multiplier of config.multipliers) {
+                        if (rand < multiplier.chance) {
+                            symbol.innerHTML = `<img src="${multiplier.img}" alt="×${multiplier.id}">`;
+                            symbol.dataset.symbol = `multiplier-${multiplier.id}`;
+                            isMultiplier = true;
+                            break;
+                        }
+                    }
+                    
+                    // Jika bukan multiplier, tampilkan simbol biasa
+                    if (!isMultiplier) {
+                        const randomSymbol = config.symbols[Math.floor(Math.random() * config.symbols.length)];
+                        symbol.innerHTML = `<img src="${randomSymbol.img}" alt="Symbol">`;
+                        symbol.dataset.symbol = `symbol-${randomSymbol.id}`;
+                    }
+                }
+            }
+        }
+
+        // Hitung kemenangan
+        function calculateWin() {
+            let totalWin = 0;
+            let multiplier = 1;
+            
+            // Periksa setiap baris untuk kombinasi pemenang
+            for (let row = 0; row < config.rows; row++) {
+                // Dapatkan simbol di baris ini
+                const lineSymbols = [];
+                for (let reel = 0; reel < config.reels; reel++) {
+                    const symbol = document.getElementById(`symbol-${reel}-${row}`);
+                    lineSymbols.push(symbol.dataset.symbol);
+                }
+                
+                // Periksa kombinasi simbol biasa
+                for (const symbolConfig of config.symbols) {
+                    const symbolId = `symbol-${symbolConfig.id}`;
+                    let count = 0;
+                    
+                    for (let i = 0; i < lineSymbols.length; i++) {
+                        if (lineSymbols[i] === symbolId) {
+                            count++;
+                        } else if (count >= 3) {
+                            break;
+                        } else {
+                            count = 0;
+                        }
+                    }
+                    
+                    if (count >= 3) {
+                        const winAmount = bet * symbolConfig.payout[count];
+                        totalWin += winAmount;
+                    }
+                }
+                
+                // Periksa multiplier
+                for (let i = 0; i < lineSymbols.length; i++) {
+                    if (lineSymbols[i] && lineSymbols[i].startsWith('multiplier-')) {
+                        const multiplierValue = parseInt(lineSymbols[i].split('-')[1]);
+                        multiplier *= multiplierValue;
+                    }
+                }
+            }
+            
+            // Periksa scatter
+            let scatterCount = 0;
+            for (let reel = 0; reel < config.reels; reel++) {
+                for (let row = 0; row < config.rows; row++) {
+                    const symbol = document.getElementById(`symbol-${reel}-${row}`);
+                    if (symbol.dataset.symbol === 'scatter') {
+                        scatterCount++;
+                    }
+                }
+            }
+            
+            if (scatterCount >= 3) {
+                const scatterWin = bet * scatterCount * 10; // 10x per scatter
+                totalWin += scatterWin;
+            }
+            
+            // Terapkan multiplier
+            totalWin *= multiplier;
+            
+            // Tambahkan kemenangan ke saldo
+            if (totalWin > 0) {
+                balance += totalWin;
+                winAmountEl.textContent = `Rp ${formatRupiah(totalWin)}`;
+                
+                // Tampilkan animasi BIG WIN jika menang di atas 500.000
+                if (totalWin > 500000) {
+                    winAnimation.style.opacity = '1';
+                    setTimeout(() => {
+                        winAnimation.style.opacity = '0';
+                    }, 3000);
+                }
+            }
+            
+            updateUI();
+        }
+
+        // Event listeners
+        decreaseBetBtn.addEventListener('click', () => {
+            if (bet > config.minBet) {
+                bet = Math.max(config.minBet, bet - 100);
+                updateUI();
+            }
+        });
+
+        increaseBetBtn.addEventListener('click', () => {
+            if (bet < config.maxBet && bet <= balance) {
+                bet = Math.min(config.maxBet, bet + 100);
+                updateUI();
+            }
+        });
+
+        spinBtn.addEventListener('click', () => {
+            unlimitedSpins = false;
+            spinReels();
+        });
+
+        spin10xBtn.addEventListener('click', () => {
+            unlimitedSpins = false;
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    if (balance >= bet) spinReels();
+                }, i * 2000);
+            }
+        });
+
+        spinUnlimitedBtn.addEventListener('click', () => {
+            unlimitedSpins = !unlimitedSpins;
+            if (unlimitedSpins && balance >= bet) {
+                spinReels();
+            }
+        });
+
+        // Inisialisasi game
+        createReels();
+        updateUI();
+    </script>
+</body>
+</html>
