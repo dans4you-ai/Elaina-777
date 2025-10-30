@@ -313,41 +313,6 @@
             to { transform: scale(1); opacity: 1; }
         }
         
-        .paytable {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        
-        .paytable h2 {
-            color: #ffcc00;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        
-        .paytable-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-        }
-        
-        .paytable-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-        }
-        
-        .paytable-item img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-        
         .message {
             position: fixed;
             bottom: 20px;
@@ -427,13 +392,6 @@
                 </div>
             </div>
         </div>
-        
-        <div class="paytable">
-            <h2>Tabel Pembayaran</h2>
-            <div class="paytable-grid" id="paytable-grid">
-                <!-- Paytable akan diisi oleh JavaScript -->
-            </div>
-        </div>
     </div>
     
     <div class="win-animation" id="win-animation">
@@ -494,7 +452,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeGame();
             setupEventListeners();
-            generatePaytable();
         });
 
         function initializeGame() {
@@ -586,8 +543,8 @@
                     reelStrip.appendChild(symbolElement);
                 }
                 
-                // Atur posisi awal
-                reelStrip.style.top = '0px';
+                // Atur posisi awal - mulai dari atas (nilai negatif)
+                reelStrip.style.top = '-1330px'; // 10 simbol * 133px
             }
         }
 
@@ -649,21 +606,21 @@
                 reelElements.push(document.getElementById(`reel-strip${i+1}`));
             }
             
-            // Animasi putaran
+            // Animasi putaran - turun dari atas ke bawah
             let spinsCompleted = 0;
-            const totalSpins = 3; // Jumlah putaran animasi (dikurangi untuk kecepatan)
+            const totalSpins = 3; // Jumlah putaran animasi
             
             function animateSpin() {
                 for (let i = 0; i < config.reels; i++) {
                     const reelStrip = reelElements[i];
-                    const currentTop = parseInt(reelStrip.style.top) || 0;
-                    const newTop = currentTop - 133; // Geser ke atas satu simbol
+                    const currentTop = parseInt(reelStrip.style.top) || -1330;
+                    const newTop = currentTop + 133; // Geser ke bawah satu simbol
                     
                     reelStrip.style.top = `${newTop}px`;
                     
-                    // Jika sudah mencapai akhir, reset ke atas dengan hasil yang ditentukan
-                    if (Math.abs(newTop) >= 133 * 10) {
-                        reelStrip.style.top = '0px';
+                    // Jika sudah mencapai bawah, reset ke atas dengan hasil yang ditentukan
+                    if (newTop >= 0) {
+                        reelStrip.style.top = '-1330px';
                         
                         // Ganti simbol dengan hasil yang ditentukan
                         const symbols = reelStrip.querySelectorAll('.symbol');
@@ -677,7 +634,7 @@
                 spinsCompleted++;
                 
                 if (spinsCompleted < totalSpins * 10) {
-                    setTimeout(animateSpin, 80 - (spinsCompleted / 2)); // Lebih cepat
+                    setTimeout(animateSpin, 50); // Lebih cepat
                 } else {
                     // Selesai berputar, hitung kemenangan
                     setTimeout(() => {
@@ -861,47 +818,6 @@
             setTimeout(() => {
                 message.classList.remove('show');
             }, 3000);
-        }
-
-        function generatePaytable() {
-            const paytableGrid = document.getElementById('paytable-grid');
-            paytableGrid.innerHTML = '';
-            
-            // Tambahkan simbol biasa
-            for (const [symbolId, pays] of Object.entries(paytable)) {
-                const symbol = config.symbols.find(s => s.id == symbolId);
-                if (symbol) {
-                    for (const [count, multiplier] of Object.entries(pays)) {
-                        const item = document.createElement('div');
-                        item.className = 'paytable-item';
-                        item.innerHTML = `
-                            <img src="${symbol.img}" alt="${symbol.id}">
-                            <div>${count} sejajar: ${multiplier}x taruhan</div>
-                        `;
-                        paytableGrid.appendChild(item);
-                    }
-                }
-            }
-            
-            // Tambahkan multiplier
-            for (const multiplier of config.multipliers) {
-                const item = document.createElement('div');
-                item.className = 'paytable-item';
-                item.innerHTML = `
-                    <img src="${multiplier.img}" alt="${multiplier.id}">
-                    <div>${multiplier.id} taruhan</div>
-                `;
-                paytableGrid.appendChild(item);
-            }
-            
-            // Tambahkan scatter
-            const scatterItem = document.createElement('div');
-            scatterItem.className = 'paytable-item';
-            scatterItem.innerHTML = `
-                <img src="${config.scatter.img}" alt="${config.scatter.id}">
-                <div>3 scatter: Free Spin</div>
-            `;
-            paytableGrid.appendChild(scatterItem);
         }
     </script>
 </body>
