@@ -151,22 +151,22 @@
             justify-content: center;
             align-items: center;
             font-size: 40px;
-            transition: transform 0.5s ease-out;
+            transition: transform 0.3s ease-out;
         }
         
         .symbol img {
             max-width: 90%;
             max-height: 90%;
-            transition: transform 0.3s ease;
+            transition: transform 0.2s ease;
         }
         
         .symbol.spinning {
-            animation: slowSpin 0.8s ease-in-out infinite;
+            animation: fastSpin 0.3s ease-in-out infinite;
         }
         
-        @keyframes slowSpin {
+        @keyframes fastSpin {
             0% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            50% { transform: translateY(-3px); }
             100% { transform: translateY(0); }
         }
         
@@ -418,7 +418,7 @@
         }
         
         .reel-spinning {
-            animation: reelGlow 2s infinite;
+            animation: reelGlow 1s infinite;
         }
         
         @keyframes reelGlow {
@@ -808,12 +808,12 @@
                 spinSound.oscillator.start();
                 spinSound.gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
                 
-                // Hentikan suara setelah 2 detik
+                // Hentikan suara setelah 1 detik (lebih cepat)
                 setTimeout(() => {
                     spinSound.oscillator.stop();
                     // Buat ulang oscillator untuk penggunaan berikutnya
                     spinSound = createSpinningSound();
-                }, 2000);
+                }, 1000);
             } catch (e) {
                 console.error("Error playing spin sound:", e);
             }
@@ -827,12 +827,12 @@
                 winSound.oscillator.start();
                 winSound.gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
                 
-                // Hentikan suara setelah 1 detik
+                // Hentikan suara setelah 0.5 detik (lebih cepat)
                 setTimeout(() => {
                     winSound.oscillator.stop();
                     // Buat ulang oscillator untuk penggunaan berikutnya
                     winSound = createWinSound();
-                }, 1000);
+                }, 500);
             } catch (e) {
                 console.error("Error playing win sound:", e);
             }
@@ -847,13 +847,13 @@
                 bigWinSound.oscillator2.start();
                 bigWinSound.gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
                 
-                // Hentikan suara setelah 3 detik
+                // Hentikan suara setelah 2 detik (lebih cepat)
                 setTimeout(() => {
                     bigWinSound.oscillator1.stop();
                     bigWinSound.oscillator2.stop();
                     // Buat ulang oscillator untuk penggunaan berikutnya
                     bigWinSound = createBigWinSound();
-                }, 3000);
+                }, 2000);
             } catch (e) {
                 console.error("Error playing big win sound:", e);
             }
@@ -869,14 +869,14 @@
                 freeSpinsSound.oscillator3.start();
                 freeSpinsSound.gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
                 
-                // Hentikan suara setelah 2 detik
+                // Hentikan suara setelah 1 detik (lebih cepat)
                 setTimeout(() => {
                     freeSpinsSound.oscillator1.stop();
                     freeSpinsSound.oscillator2.stop();
                     freeSpinsSound.oscillator3.stop();
                     // Buat ulang oscillator untuk penggunaan berikutnya
                     freeSpinsSound = createFreeSpinsSound();
-                }, 2000);
+                }, 1000);
             } catch (e) {
                 console.error("Error playing free spins sound:", e);
             }
@@ -911,14 +911,14 @@
                 jackpotSound.oscillator3.start();
                 jackpotSound.gainNode.gain.setValueAtTime(0.4, audioContext.currentTime);
                 
-                // Hentikan suara setelah 4 detik
+                // Hentikan suara setelah 3 detik (lebih cepat)
                 setTimeout(() => {
                     jackpotSound.oscillator1.stop();
                     jackpotSound.oscillator2.stop();
                     jackpotSound.oscillator3.stop();
                     // Buat ulang oscillator untuk penggunaan berikutnya
                     jackpotSound = createJackpotSound();
-                }, 4000);
+                }, 3000);
             } catch (e) {
                 console.error("Error playing jackpot sound:", e);
             }
@@ -1002,11 +1002,11 @@
             winDetailsEl.textContent = '';
             scatterInfoEl.textContent = '';
             
-            // Putar setiap gulungan dengan delay yang lebih lama
+            // Putar setiap gulungan dengan delay yang lebih cepat
             for (let i = 0; i < config.reels; i++) {
                 setTimeout(() => {
                     spinReel(i);
-                }, i * 500); // Delay antar gulungan diperlambat
+                }, i * 200); // Delay antar gulungan dipercepat
             }
             
             // Setelah semua gulungan berhenti, hitung kemenangan
@@ -1016,11 +1016,11 @@
                 
                 // Handle mode spin yang berbeda
                 if (unlimitedSpins && (balance >= bet || isFreeSpinsActive)) {
-                    setTimeout(spinReels, 1000);
+                    setTimeout(spinReels, 500); // Delay lebih cepat
                 } else if (spin10xActive) {
                     spin10xCount++;
                     if (spin10xCount < 10 && (balance >= bet || isFreeSpinsActive)) {
-                        setTimeout(spinReels, 1000);
+                        setTimeout(spinReels, 500); // Delay lebih cepat
                     } else {
                         // Selesai 10x spin
                         spin10xActive = false;
@@ -1039,7 +1039,7 @@
                     scatterInfoEl.textContent = "Free Spins selesai!";
                     updateUI();
                 }
-            }, config.reels * 500 + 1500); // Waktu total diperlambat
+            }, config.reels * 200 + 800); // Waktu total dipercepat
         }
 
         // Putar satu gulungan
@@ -1050,11 +1050,11 @@
             // Tambahkan efek spinning pada reel
             reel.classList.add('reel-spinning');
             
-            // Animasi putaran yang lebih lambat
-            let spinDuration = 2000 + reelIndex * 300; // Durasi diperlambat
+            // Animasi putaran yang lebih cepat
+            let spinDuration = 1000 + reelIndex * 100; // Durasi dipercepat
             let startTime = null;
             let spinCount = 0;
-            const maxSpins = 8 + reelIndex; // Jumlah putaran dikurangi
+            const maxSpins = 10 + reelIndex; // Jumlah putaran tetap sama
             
             function animateSpin(timestamp) {
                 if (!startTime) startTime = timestamp;
@@ -1064,7 +1064,7 @@
                 if (spinProgress < 1) {
                     // Acak simbol dengan kecepatan yang semakin melambat
                     const slowFactor = 1 - Math.pow(spinProgress, 2); // Efek easing
-                    const interval = 100 + (200 * slowFactor); // Interval diperlambat
+                    const interval = 50 + (100 * slowFactor); // Interval dipercepat
                     
                     if (progress > spinCount * interval) {
                         symbols.forEach(symbol => {
@@ -1239,7 +1239,7 @@
                 
                 setTimeout(() => {
                     freeSpinsAnimation.style.opacity = '0';
-                }, 4000);
+                }, 3000); // Animasi lebih cepat
                 
                 scatterInfoEl.textContent = `Anda mendapatkan ${config.scatter.freeSpins} Free Spins dengan multiplier ${freeSpinsMultiplier}x!`;
                 updateUI();
@@ -1272,7 +1272,7 @@
                 
                 setTimeout(() => {
                     jackpotAnimation.style.opacity = '0';
-                }, 5000);
+                }, 4000); // Animasi lebih cepat
             }
             
             // Tambahkan kemenangan ke saldo
@@ -1295,7 +1295,7 @@
                     
                     setTimeout(() => {
                         winAnimation.style.opacity = '0';
-                    }, 4000);
+                    }, 3000); // Animasi lebih cepat
                 } else {
                     // Mainkan suara kemenangan biasa
                     playWinSound();
